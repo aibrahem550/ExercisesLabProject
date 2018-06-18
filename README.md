@@ -1,2 +1,0 @@
-# ExercisesLabProject
-Created with CodeSandbox
