@@ -6,11 +6,14 @@ const Footer = props => {
   const index = props.category
     ? props.muscles.findIndex(group => group === props.category) + 1
     : 0;
+  const onIndexSelect = (e, index) =>
+    props.onSelect(index === 0 ? "" : props.muscles[index - 1]);
+
   return (
     <Paper>
       <Tabs
         value={index}
-        onChange={props.onSelect}
+        onChange={onIndexSelect}
         indicatorColor="primary"
         textColor="primary"
         centered

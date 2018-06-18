@@ -25,7 +25,9 @@ export default class App extends Component {
   }
 
   handleCategorySelected = category => {
-    this.setState({});
+    this.setState({
+      category
+    });
   };
   render() {
     const exercises = this.getExercisesByMuscles(),
@@ -37,7 +39,7 @@ export default class App extends Component {
           <br />
           <br />
           <br />
-          <Excerises exercises={exercises} />
+          <Excerises category={category} exercises={exercises} />
           <Footer
             muscles={muscles}
             category={category}
