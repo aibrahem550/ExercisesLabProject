@@ -1,8 +1,8 @@
 {
-  "name": "new",
+  "name": "exerciseapp",
   "version": "1.0.0",
   "description": "",
-  "keywords": [],
+  "keywords": ["training"],
   "main": "src/index.js",
   "dependencies": {
     "material-ui": "1.0.0-beta.47",
