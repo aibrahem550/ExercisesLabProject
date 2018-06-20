@@ -1,15 +1,15 @@
 import React, { Component, Fragment } from "react";
 import Header from "./Layouts/Header";
 import Footer from "./Layouts/Footer";
-import Excerises from "../Components/Exercises/Index";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import Exercises from "./Exercises/Index";
 import { muscles, exercises } from "../store.js";
 
-export default class App extends Component {
+export default class extends Component {
   state = {
     exercises,
-    category: "arms"
+    exercise: {}
   };
+
   getExercisesByMuscles() {
     return Object.entries(
       this.state.exercises.reduce((exercises, exercise) => {
@@ -29,23 +29,36 @@ export default class App extends Component {
       category
     });
   };
+
+  handleExerciseSelected = id => {
+    this.setState(({ exercises }) => ({
+      exercise: exercises.find(ex => ex.id === id)
+    }));
+  };
+
   render() {
     const exercises = this.getExercisesByMuscles(),
-      { category } = this.state;
+      { category, exercise } = this.state;
+
     return (
       <Fragment>
-        <MuiThemeProvider>
-          <Header />
-          <br />
-          <br />
-          <br />
-          <Excerises category={category} exercises={exercises} />
-          <Footer
-            muscles={muscles}
-            category={category}
-            onSelect={this.handleCategorySelected}
-          />
-        </MuiThemeProvider>
+        <Header muscles={muscles} />
+        <br />
+        <br />
+        <br />
+
+        <Exercises
+          exercise={exercise}
+          category={category}
+          exercises={exercises}
+          onSelect={this.handleExerciseSelected}
+        />
+
+        <Footer
+          category={category}
+          muscles={muscles}
+          onSelect={this.handleCategorySelected}
+        />
       </Fragment>
     );
   }

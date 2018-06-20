@@ -10,9 +10,14 @@ import AddIcon from "material-ui-icons/Add";
 import {FormControl} from 'material-ui/Form';
 import {InputLabel} from 'material-ui/Input';
 import {MenuItem} from 'material-ui/Menu';
+import {withStyles} from 'material-ui/styles';
 
-
-export default class extends Component {
+const styles = theme => ({
+  FormControl:{
+    width:500
+  }
+})
+export default withStyles(styles)(class extends Component {
   state = {
     open: false,
     exercises: {
@@ -30,17 +35,19 @@ export default class extends Component {
         ...this.state.exercises,
         [name]:event.target.value
       }
- 
-
     });
   };
-
+  handleSubmit =()=>{
+    const {exercise} = this.state
+    this.props.onCreate(exercise);
+  }
   render() {
-    const { open, exercises: { title, description, muscles } } = this.state;
+    const { open, exercises: { title, description, muscles } } = this.state,
+     {classes, muscles : categories } =this.props;
 
     return (
       <Fragment>
-        <Button variant="fab" mini onClick={this.handleToggle}>
+        <Button variant="fab" color="primary" mini onClick={this.handleToggle}>
           <AddIcon />
         </Button>
         <Dialog
@@ -58,24 +65,20 @@ export default class extends Component {
                 value={title}
                 onChange={this.handleChange("title")}
                 margin="normal"
+                className={classes.FormControl}
               />
               <br/>
-              <FormControl>
-                <InputLabel htmlFor="age-simple">Age</InputLabel>
+              <FormControl className={classes.FormControl}>
+                <InputLabel htmlFor="muscles">
+                Muscles
+                </InputLabel>
                 <Select
-                  value={this.state.age}
-                  onChange={this.handleChange}
-                  inputProps={{
-                    name: 'age',
-                    id: 'age-simple',
-                  }}
+                  value={muscles}
+                  onChange={this.handleChange('muscles')}
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+    {categories.map(category=>
+                    <MenuItem value={category}>{category}</MenuItem>
+     )}
                 </Select>
               </FormControl>
               <br/>
@@ -88,6 +91,7 @@ export default class extends Component {
                 rows='3'
                 onChange={this.handleChange("description")}
                 margin="normal"
+                className={classes.FormControl}
               />         
             </form>
           </DialogContent>
@@ -95,7 +99,9 @@ export default class extends Component {
             <Button color="primary" onClick={this.handleToggle}>
               Cancel
             </Button>
-            <Button color="primary" variant="raised">
+            <Button color="primary" variant="raised"
+             onClick={this.handleSubmit}
+             >
               Create
             </Button>
           </DialogActions>
@@ -103,4 +109,4 @@ export default class extends Component {
       </Fragment>
     );
   }
-}
+})
